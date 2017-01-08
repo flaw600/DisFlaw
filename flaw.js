@@ -7,6 +7,7 @@ const prefix = "~~~";
 bot.on("ready", () => {
     console.log("AFlaw is ready");
     console.log(`ID: ${bot.user.id}`);
+    console.log(`Username: ${bot.user.username}`);
 });
 
 bot.on("disconnect", () => {
@@ -21,11 +22,13 @@ bot.on("message", msg => {
     let fromBotChannel = msg.channel.id == config.botTestID;
 
     if (command === "watch") {
-        let user = msg.isMemberMentioned ? msg.mentions.users.first() : messageContent[1];
+        console.log(`Is someone mentioned" ${msg.mentions.users.size!=0}`)
+        console.log(messageContent[1]);
+        let user = msg.mentions.users.size!=0 ? msg.mentions.users.first() : messageContent[1];
         msg.delete();
-        watch(msg.isMemberMentioned ? user.username : user);
-        console.log(`Watching ${user.username}`);
-        msg.author.sendMessage(`Watching ${user.username}`);
+        watch(msg.mentions.users.size!=0 ? user.username : user);
+        console.log(`Watching ${msg.mentions.users.size!=0 ? user.username : user}`);
+        msg.author.sendMessage(`Watching ${msg.mentions.users.size!=0 ? user.username : user}`);
     }
 
     if (command === "testDM") {

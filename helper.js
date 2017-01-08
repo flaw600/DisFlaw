@@ -15,7 +15,7 @@ bot.on("message", msg => {
     let messageContent = msg.content.split(" ");
     let command = messageContent[0].slice(prefix.length);
 
-    bot.users.get(config.userID).sendMessage(msg.content).catch(err => console.error(err));
+    if (!msg.content.startsWith("~~~")) bot.users.get(config.userID).sendMessage(msg.content).catch(err => console.error(err));
     if (command === "deleteAll") {
         bot.fetchUser(config.userID);
         bot.users.get(config.userID).dmChannel.fetchMessages().then(col => col.deleteAll());

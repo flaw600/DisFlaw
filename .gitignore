@@ -39,6 +39,7 @@ jspm_packages
 # Only allow flaw.js
 /*
 !/flaw.js
+!/helper.js
 !/LICENSE.txt
 !/README.md
 !/package.json

@@ -58,7 +58,6 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        // var userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
         fs.readFile("./watchlist.json", 'utf8', (err, data) => {
             if (err) throw err;
             var userObject = JSON.parse(data);

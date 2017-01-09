@@ -64,7 +64,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
             if (err) throw err;
             var userObject = JSON.parse(data);
             if (userObject[oldUser.user.username]) {
-                if ((oldUser.presence.status === "offline" || oldUser.presence.status === "away") && (newUser.presence.status != "offline")) {
+                if ((oldUser.presence.status != "online") && (newUser.presence.status != "offline")) {
                     bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
                 }
         }

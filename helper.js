@@ -16,7 +16,7 @@ bot.on("message", msg => {
     let command = messageContent[0].slice(prefix.length);
 
     bot.fetchUser(config.userID);
-    if (!msg.content.startsWith("~~~")) bot.users.get(config.userID).sendMessage(msg.content).catch(err => console.error(err));
+    if (!msg.content.startsWith(prefix)) bot.users.get(config.userID).sendMessage(msg.content).catch(err => console.error(err));
     if (command === "deleteAll") {
         console.log("Deleting all messages");
         bot.fetchUser(config.userID);

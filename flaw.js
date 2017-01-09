@@ -58,12 +58,15 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        var userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
-        if (userObject[oldUser.user.username]) {
-            if ((oldUser.presence.status === "offline") && (newUser.presence.status != "offline")) {
-                bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
-            }
+        // var userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
+        fs.readFile("./watchlist.json", 'utf8', (err, data) => {
+            var userObject = JSON.parse(data);
+            if (userObject[oldUser.user.username]) {
+                if ((oldUser.presence.status === "offline") && (newUser.presence.status != "offline")) {
+                    bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
+                }
         }
+        });
     } catch (error) {
         console.error(error);
     }
@@ -73,9 +76,11 @@ bot.login(config.userToken);
 
 function watch(user) {
     try {
-        let userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
-        userObject[user] = user;
-        fs.writeFileSync("./watchlist.json", JSON.stringify(userObject));
+        fs.readFile("./watchlist.json", 'utf8', (err, data) => {
+            let userObject = JSON.parse(data);
+            userObject[user] = user;
+            fs.writeFile("./watchlist.json", JSON.stringify(userObject));
+        });
         return;
     } catch (error) {
         console.error(error);
@@ -84,9 +89,11 @@ function watch(user) {
 
 function unwatch(user) {
     try {
-        let userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
-        delete userObject[user];
-        fs.writeFileSync("./watchlist.json", JSON.stringify(userObject));
+        fs.readFile("./watchlist.json", 'utf8', (err, data) => {
+            let userObject = JSON.parse(data);
+            delete userObject[user];
+            fs.writeFile("./watchlist.json", JSON.stringify(userObject));
+        });
         return;
     } catch (error) {
         console.error(error);

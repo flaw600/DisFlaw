@@ -1,7 +1,7 @@
 var Discord = require("discord.js");
 var config = require("./config.json");
 var bot = new Discord.Client();
-const prefix = "~~~";
+const prefix = "~";
 
 bot.on("ready", () => {
     console.log("FlawBot is ready");

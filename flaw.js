@@ -4,7 +4,7 @@ var fs = require("fs");
 var wfa = require("write-file-atomic").sync;
 var watchlist = {}
 var bot = new Discord.Client();
-const prefix = "~~~";
+const prefix = "~";
 
 bot.on("ready", () => {
     console.log("AFlaw is ready");
@@ -17,7 +17,7 @@ process.on('SIGINT', () => {
 });
 
 bot.on("message", msg => {
-    if (msg.author.id != bot.user.id || msg.content.substring(0, 3) != prefix) return;
+    if (msg.author.id != bot.user.id || msg.content.substring(0, 1) != prefix) return;
 
     let messageContent = msg.content.split(" ");
     let command = messageContent[0].slice(prefix.length);
@@ -64,7 +64,12 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
             var userObject = JSON.parse(data);
             if (userObject[oldUser.user.username]) {
                 if ((oldUser.presence.status != "online") && (newUser.presence.status != "offline")) {
-                    bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
+                    bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`)
+                    .then(message => {
+                      console.log(message);
+                      message.delete();  
+                    })
+                    .catch(console.error);
                 }
         }
         });

@@ -11,7 +11,8 @@
     ],
     "typeAcquisition": {
         "include": [
-            "discord.js"
+            "discord.js",
+            "write-file-atomic"
         ]
     }
 }

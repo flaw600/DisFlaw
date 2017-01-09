@@ -18,7 +18,6 @@ process.on('SIGINT', () => {
 
 bot.on("message", msg => {
     if (msg.author.id != bot.user.id || msg.content.substring(0, 3) != prefix) return;
-     console.log(`The first three characters are: ${msg.content.substring(0, 3)}`);
 
     let messageContent = msg.content.split(" ");
     let command = messageContent[0].slice(prefix.length);

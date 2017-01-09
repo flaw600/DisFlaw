@@ -12,8 +12,8 @@ bot.on("ready", () => {
     console.log(`Username: ${bot.user.username}`);
 });
 
-bot.on("disconnect", () => {
-    console.log("AFlaw is disconnecting");
+process.on('SIGINT', () => {
+    console.log("AFlaw is exiting");
 });
 
 bot.on("message", msg => {
@@ -25,7 +25,7 @@ bot.on("message", msg => {
 
     if (command === "watch") {
         console.log("Watch command");
-        console.log(`Is someone mentioned" ${msg.mentions.users.size!=0}`);
+        console.log(`Is someone mentioned: ${msg.mentions.users.size!=0}`);
         console.log(messageContent[1]);
         let user = msg.mentions.users.size!=0 ? msg.mentions.users.first() : messageContent[1];
         if (msg.channel.id != config.botTestID) msg.delete();
@@ -58,7 +58,8 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        if (watchlist[oldUser.user.username]) {
+        var userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
+        if (userObject[oldUser.user.username]) {
             if ((oldUser.presence.status === "offline") && (newUser.presence.status != "offline")) {
                 bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
             }
@@ -72,8 +73,9 @@ bot.login(config.userToken);
 
 function watch(user) {
     try {
-        watchlist[user] = user;
-        console.log(JSON.stringify(watchlist));
+        let userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
+        userObject[user] = user;
+        fs.writeFileSync("./watchlist.json", JSON.stringify(userObject));
         return;
     } catch (error) {
         console.error(error);
@@ -82,8 +84,9 @@ function watch(user) {
 
 function unwatch(user) {
     try {
-        delete watchlist[user];
-        console.log(JSON.stringify(watchlist));
+        let userObject = JSON.parse(fs.readFileSync("./watchlist.json", 'utf8'));
+        delete userObject[user];
+        fs.writeFileSync("./watchlist.json", JSON.stringify(userObject));
         return;
     } catch (error) {
         console.error(error);

@@ -61,7 +61,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
         fs.readFile("./watchlist.json", 'utf8', (err, data) => {
             if (err) throw err;
             var userObject = JSON.parse(data);
-            if (userObject[oldUser.user.username]) {
+            if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
                 if ((oldUser.presence.status != "online") && (newUser.presence.status != "offline")) {
                     bot.channels.get(config.botTestID).sendMessage(`${oldUser.user.username} is ${newUser.presence.status}`)
                     .then(message => {

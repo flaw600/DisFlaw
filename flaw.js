@@ -1,5 +1,4 @@
 var Discord = require("discord.js");
-var config = require("./config.json");
 var fs = require("fs");
 var bot = new Discord.Client();
 var readyCount = 0;
@@ -27,7 +26,7 @@ bot.on("message", msg => {
 
     let messageContent = msg.content.split(" ");
     let command = messageContent[0].slice(prefix.length);
-    let fromBotChannel = msg.channel.id == config.botTestID;
+    let fromBotChannel = msg.channel.id == process.env.BOT_TEST_ID;
 
     if (command === "watch") {
         // console.log("Watch command");
@@ -36,7 +35,7 @@ bot.on("message", msg => {
         let user = msg.mentions.users.size!=0 ? msg.mentions.users.first() : messageContent[1];
         if (!fromBotChannel) msg.delete();
         watch(msg.mentions.users.size!=0 ? user.username : user);
-        bot.channels.get(config.botTestID).sendMessage(`Watching ${msg.mentions.users.size!=0 ? user.username : user}`)
+        bot.channels.get(process.env.BOT_TEST_ID).sendMessage(`Watching ${msg.mentions.users.size!=0 ? user.username : user}`)
         .then(message => {
             // console.log(`Sent watch message: ${message.content}`);
             message.delete();
@@ -46,9 +45,9 @@ bot.on("message", msg => {
 
     if (command === "unwatch") {
         let user = msg.mentions.users.size!=0 ? msg.mentions.users.first() : messageContent[1];
-        if (msg.channel.id != config.botTestID) msg.delete();
+        if (msg.channel.id != process.env.BOT_TEST_ID) msg.delete();
         unwatch(msg.mentions.users.size!=0 ? user.username : user);
-        bot.channels.get(config.botTestID).sendMessage(`No longer watching ${msg.mentions.users.size!=0 ? user.username : user}`)
+        bot.channels.get(process.env.BOT_TEST_ID).sendMessage(`No longer watching ${msg.mentions.users.size!=0 ? user.username : user}`)
         .then(message => {
             // console.log(`Sent unwatch message: ${message.content}`);
             message.delete();
@@ -57,7 +56,7 @@ bot.on("message", msg => {
     }
 
     if (command === "testDM") {
-        bot.channels.get(config.botTestID).sendMessage("This is a test DM");
+        bot.channels.get(process.env.BOT_TEST_ID).sendMessage("This is a test DM");
         // console.log(`Sending test message`);
     }
 });
@@ -70,7 +69,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
             var userObject = JSON.parse(data);
             if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
                 if ((oldUser.presence.status != "online") && (newUser.presence.status != "offline")) {
-                    console.log("presenceUpdate");
+                    console.log(`presenceUpdate: ${oldUser.client.user.username}`);
                     sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
                 }
             //     userObject[[oldUser.user.username.replace(/\s/g, '')]] = newUser.presence.status;
@@ -84,7 +83,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
     }
 });
 
-bot.login(config.userToken);
+bot.login(process.env.USER_TOKEN);
 
 function watch(user) {
     try {
@@ -115,7 +114,7 @@ function unwatch(user) {
 function checkFriendsStatuses(count) {
     if (count > 1) return;
     let friendPresences = bot.presences;
-    console.log(friendPresences.keyArray().toString());
+    // console.log(friendPresences.keyArray().toString());
     friendPresences.keyArray().forEach((val, index, presences) => {
         friendList[friendPresences.keyArray()[index]] = friendPresences.get(val)["status"];
     });
@@ -135,7 +134,7 @@ function checkFriendsStatuses(count) {
 // }
 
 function sendStatusMessage(msg) {
-     bot.channels.get(config.botTestID).sendMessage(msg)
+     bot.channels.get(process.env.BOT_TEST_ID).sendMessage(msg)
     .then(message => {
         console.log(message.content);
          message.delete();  

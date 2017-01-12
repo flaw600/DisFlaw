@@ -1,5 +1,4 @@
 var Discord = require("discord.js");
-var config = require("./config.json");
 var bot = new Discord.Client();
 const prefix = "~";
 
@@ -9,21 +8,19 @@ bot.on("ready", () => {
 });
 
 bot.on("message", msg => {
-    if (msg.author.id != config.userID || msg.channel.id != config.botTestID) return;
+    if (msg.author.id != process.env.USER_ID || msg.channel.id != process.env.BOT_TEST_ID) return;
     console.log(msg.content);
 
     let messageContent = msg.content.split(" ");
     let command = messageContent[0].slice(prefix.length);
 
-    bot.fetchUser(config.userID);
-    if (!msg.content.startsWith(prefix)) bot.users.get(config.userID).sendMessage(msg.content).catch(err => console.error(err));
+    bot.fetchUser(process.env.USER_ID);
+    if (!msg.content.startsWith(prefix)) bot.users.get(process.env.USER_ID).sendMessage(msg.content).catch(err => console.error(err));
     if (command === "deleteAll") {
         console.log("Deleting all messages");
-        bot.fetchUser(config.userID);
-        bot.users.get(config.userID).dmChannel.fetchMessages().then(col => col.deleteAll());
-        // bot.users.get(config.userID).dmChannel.messages.deleteAll()
-        // .catch(err => console.error(err));
+        bot.fetchUser(process.env.USER_ID);
+        bot.users.get(process.env.USER_ID).dmChannel.fetchMessages().then(col => col.deleteAll());
     }
 });
 
-bot.login(config.flawBotToken);
+bot.login(process.env.FLAW_BOT_TOKEN);

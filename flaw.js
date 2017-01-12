@@ -83,7 +83,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
     }
 });
 
-bot.login(process.env.USER_TOKEN);
+bot.login(process.env.USER_TOKEN).catch(err => console.error(err));
 
 function watch(user) {
     try {

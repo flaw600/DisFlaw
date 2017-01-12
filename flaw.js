@@ -2,8 +2,8 @@ var Discord = require("discord.js");
 var fs = require("fs");
 var bot = new Discord.Client();
 var readyCount = 0;
+var watchlist = fs.existsSync("./watchlist.json") ? "./watchlist.json" : creatwWatchlist();
 const prefix = "~";
-const watchlist = fs.existsSync("./watchlist.json") ? "./watchlist.json" : creatwWatchlist();
 const friendList = {};
 
 bot.on("ready", () => {
@@ -144,7 +144,7 @@ function sendStatusMessage(msg) {
 
 function creatwWatchlist() {
     console.log(fs.existsSync("./watchlist.json"));
-    fs.writeFile("./watchlist.json", "{}", (err) => {
+    fs.writeFile("./watchlist.json", "{}", {flag: 'wx'},  (err) => {
         if (err) console.error(err);
         return "./watchlist.json";
     });

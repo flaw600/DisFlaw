@@ -1,2 +1,2 @@
-flawbot: node flaw.js
-web: node watchfile.js && node helper.js
+flawbot: node watchfile.js && node flaw.js
+web: node helper.js

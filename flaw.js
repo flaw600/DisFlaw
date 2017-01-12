@@ -3,7 +3,7 @@ var fs = require("fs");
 var bot = new Discord.Client();
 var readyCount = 0;
 const prefix = "~";
-const watchlist = "./watchlist.json";
+const watchlist = fs.existsSync("./watchlist.json") ? "./watchlist.json" : creatwWatchlist();
 const friendList = {};
 
 bot.on("ready", () => {
@@ -140,4 +140,11 @@ function sendStatusMessage(msg) {
          message.delete();  
     })
     .catch(console.error);
+}
+
+function creatwWatchlist() {
+    fs.writeFile("./watchlist.json", "{}", (err) => {
+        if (err) console.error(err);
+        return "./watchlist.json";
+    });
 }

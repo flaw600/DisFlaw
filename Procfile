@@ -1,2 +1,2 @@
 flawbot: node flaw.js
-realbot: node helper.js
+web: node helper.js

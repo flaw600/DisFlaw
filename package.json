@@ -4,7 +4,6 @@
   "description": "A Discord Self-Bot",
   "main": "flaw.js",
   "scripts": {
-    "start": "node watchfile.js",
     "test": "true"
   },
   "repository": {

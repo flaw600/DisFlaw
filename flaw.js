@@ -2,7 +2,7 @@ var Discord = require("discord.js");
 var fs = require("fs");
 var bot = new Discord.Client();
 var readyCount = 0;
-var watchlist = fs.existsSync("./watchlist.json") ? "./watchlist.json" : creatwWatchlist();
+var watchlist = './watchlist.json';
 const prefix = "~";
 const friendList = {};
 
@@ -72,10 +72,6 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                     console.log(`presenceUpdate: ${oldUser.client.user.username}`);
                     sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
                 }
-            //     userObject[[oldUser.user.username.replace(/\s/g, '')]] = newUser.presence.status;
-            //     fs.writeFile(watchlist, JSON.stringify(userObject), err => {
-            //        if (err) console.log(err); 
-            //     });
             }
         });
     } catch (error) {
@@ -91,6 +87,7 @@ function watch(user) {
             if (err) throw err;
             let userObject = JSON.parse(data);
             userObject[user] = user;
+            console.log(userObject);
             fs.writeFile(watchlist, JSON.stringify(userObject));
         });
     } catch (error) {
@@ -104,6 +101,7 @@ function unwatch(user) {
             if (err) throw err;
             let userObject = JSON.parse(data);
             delete userObject[user];
+            console.log(userObject);
             fs.writeFile(watchlist, JSON.stringify(userObject));
         });
     } catch (error) {
@@ -140,12 +138,4 @@ function sendStatusMessage(msg) {
          message.delete();  
     })
     .catch(console.error);
-}
-
-function creatwWatchlist() {
-    console.log(fs.existsSync("./watchlist.json"));
-    fs.writeFile("./watchlist.json", "{}", {flag: 'wx'},  (err) => {
-        if (err) console.error(err);
-        return "./watchlist.json";
-    });
 }

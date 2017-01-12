@@ -46,3 +46,4 @@ jspm_packages
 !/package.json
 !/jsconfig.json
 !/.travis.yml
+!/Procfile

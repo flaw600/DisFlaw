@@ -1,10 +1,15 @@
 var Discord = require("discord.js");
 var fs = require("fs");
+var cron = require("cron");
 var bot = new Discord.Client();
 var readyCount = 0;
 var watchlist = './watchlist.json';
 const prefix = "~";
 const friendList = {};
+
+cron.schedule('*/25 * * * *', () => {
+    console.log("Keeping SelfBot process alive");
+});
 
 bot.on("ready", () => {
     readyCount++;

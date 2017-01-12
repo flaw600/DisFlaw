@@ -4,7 +4,7 @@
   "description": "A Discord Self-Bot",
   "main": "flaw.js",
   "scripts": {
-    "postinstall": "node watchlist.js",
+    "prestart": "node watchlist.js",
     "test": "true"
   },
   "repository": {

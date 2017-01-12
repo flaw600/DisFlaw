@@ -1,3 +1,4 @@
+var http = require("http");
 var Discord = require("discord.js");
 var bot = new Discord.Client();
 const prefix = "~";
@@ -24,3 +25,5 @@ bot.on("message", msg => {
 });
 
 bot.login(process.env.FLAW_BOT_TOKEN);
+
+http.createServer().listen(process.env.PORT || 5000);

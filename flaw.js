@@ -143,6 +143,7 @@ function sendStatusMessage(msg) {
 }
 
 function creatwWatchlist() {
+    console.log(fs.existsSync("./watchlist.json"));
     fs.writeFile("./watchlist.json", "{}", (err) => {
         if (err) console.error(err);
         return "./watchlist.json";

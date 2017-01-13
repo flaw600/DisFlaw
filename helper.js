@@ -31,4 +31,4 @@ bot.on("message", msg => {
 
 bot.login(process.env.FLAW_BOT_TOKEN);
 
-http.createServer().listen(process.env.PORT || 5000);
+http.createServer((req, res) => res.end("POMG")).listen(process.env.PORT || 5000);

@@ -86,7 +86,7 @@ function watch(user) {
 
 function unwatch(user) {
     try {
-        let userObject = JSON.parse(data);
+        let userObject = JSON.parse(process.env.WATCHLIST);
         delete userObject[user];
         console.log(userObject);
             process.env.WATCHLIST = JSON.stringify(userObject);

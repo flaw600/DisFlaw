@@ -22,7 +22,7 @@ bot.on("ready", () => {
     // watchForFriendPresenceUpdate(readyCount);
 });
 
-process.on('SIGINT', () => {
+process.on('SIGTERM', () => {
     console.log("AFlaw is exiting");
 });
 
@@ -40,45 +40,32 @@ bot.on("message", msg => {
         let user = msg.mentions.users.size!=0 ? msg.mentions.users.first() : messageContent[1];
         if (!fromBotChannel) msg.delete();
         watch(msg.mentions.users.size!=0 ? user.username : user);
-        bot.channels.get(process.env.BOT_TEST_ID).sendMessage(`Watching ${msg.mentions.users.size!=0 ? user.username : user}`)
-        .then(message => {
-            // console.log(`Sent watch message: ${message.content}`);
-            message.delete();
-        })
-        .catch(console.error);
+        sendStatusMessage(`Watching ${msg.mentions.users.size!=0 ? user.username : user}`);
     }
 
     if (command === "unwatch") {
         let user = msg.mentions.users.size!=0 ? msg.mentions.users.first() : messageContent[1];
         if (msg.channel.id != process.env.BOT_TEST_ID) msg.delete();
         unwatch(msg.mentions.users.size!=0 ? user.username : user);
-        bot.channels.get(process.env.BOT_TEST_ID).sendMessage(`No longer watching ${msg.mentions.users.size!=0 ? user.username : user}`)
-        .then(message => {
-            // console.log(`Sent unwatch message: ${message.content}`);
-            message.delete();
-        })
-        .catch(console.error);
+        sendStatusMessage(`No longer watching ${msg.mentions.users.size!=0 ? user.username : user}`);
     }
 
     if (command === "testDM") {
-        bot.channels.get(process.env.BOT_TEST_ID).sendMessage("This is a test DM");
+        sendStatusMessage("This is a Test DM");
         // console.log(`Sending test message`);
     }
 });
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        // if (oldUser.client.user.id in bot.user.friends.keys) return;
-        fs.readFile(watchlist, 'utf8', (err, data) => {
-            if (err) throw err;
-            var userObject = JSON.parse(data);
-            if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
-                if ((oldUser.presence.status != "online") && (newUser.presence.status != "offline")) {
-                    console.log(`presenceUpdate: ${oldUser.client.user.username}`);
-                    sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
-                }
-            }
-        });
+        //  if (oldUser.client.user.id in bot.user.friends.keys) return;
+        var userObject = JSON.parse(process.env.WATCHLIST);
+        if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
+            if ((oldUser.presence.status != "online") && (newUser.presence.status != "offline")) {
+                 console.log(`presenceUpdate: ${oldUser.client.user.username}`);
+                 sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
+             }
+        }
     } catch (error) {
         console.error(error);
     }
@@ -88,13 +75,10 @@ bot.login(process.env.USER_TOKEN).catch(err => console.error(err));
 
 function watch(user) {
     try {
-        fs.readFile(watchlist, 'utf8', (err, data) => {
-            if (err) throw err;
-            let userObject = JSON.parse(data);
-            userObject[user] = user;
-            console.log(userObject);
-            fs.writeFile(watchlist, JSON.stringify(userObject));
-        });
+        let userObject = JSON.parse(process.env.WATCHLIST);
+        userObject[user] = user;
+        console.log(userObject);
+        process.env.WATCHLIST = JSON.stringify(userObject);
     } catch (error) {
         console.error(error);
     }
@@ -102,13 +86,10 @@ function watch(user) {
 
 function unwatch(user) {
     try {
-        fs.readFile(watchlist, 'utf8', (err, data) => {
-            if (err) throw err;
-            let userObject = JSON.parse(data);
-            delete userObject[user];
-            console.log(userObject);
-            fs.writeFile(watchlist, JSON.stringify(userObject));
-        });
+        let userObject = JSON.parse(process.env.WATCHLIST);
+        delete userObject[user];
+        console.log(userObject);
+            process.env.WATCHLIST = JSON.stringify(userObject);
     } catch (error) {
         console.error(error);
     }

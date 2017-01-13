@@ -1,7 +1,7 @@
 var Discord = require("discord.js");
 var fs = require("fs");
 var cron = require("node-cron");
-var bot = new Discord.Client();
+var bot = new Discord.Client( {fetchAllMembers: true} );
 var readyCount = 0;
 var watchlist = './watchlist.json';
 const prefix = "~";

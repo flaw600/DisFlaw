@@ -16,8 +16,8 @@ bot.on("ready", () => {
     console.log("AFlaw is ready");
     console.log(`ID: ${bot.user.id}`);
     console.log(`Username: ${bot.user.username}`);
-    // console.log(bot.presences);
-    // console.log(bot.user.friends);
+    console.log(bot.presences);
+    console.log(bot.user.friends);
     checkFriendsStatuses(readyCount);
     // watchForFriendPresenceUpdate(readyCount);
 });

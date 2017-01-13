@@ -1,9 +1,9 @@
 var Discord = require("discord.js");
-var fs = require("fs");
+// var fs = require("fs");
 var cron = require("node-cron");
 var bot = new Discord.Client( {fetchAllMembers: true} );
 var readyCount = 0;
-var watchlist = './watchlist.json';
+// var watchlist = './watchlist.json';
 const prefix = "~";
 const friendList = {};
 
@@ -99,7 +99,7 @@ function checkFriendsStatuses(count) {
     if (count > 1) return;
     let friendPresences = bot.presences;
     // console.log(friendPresences.keyArray().toString());
-    friendPresences.keyArray().forEach((val, index, presences) => {
+    friendPresences.keyArray().forEach((val, index) => {
         friendList[friendPresences.keyArray()[index]] = friendPresences.get(val)["status"];
     });
     console.log(bot.user.friends);

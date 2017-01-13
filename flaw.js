@@ -103,6 +103,7 @@ function checkFriendsStatuses(count) {
         friendList[friendPresences.keyArray()[index]] = friendPresences.get(val)["status"];
     });
     console.log(bot.user.friends);
+    console.log(friendPresences);
 }
 
 // function watchForFriendPresenceUpdate(count) {

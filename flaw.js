@@ -99,10 +99,8 @@ function unwatch(user) {
 function checkFriendsStatuses(count) {
     if (count > 1) return;
     let friends = bot.user.friends;
-    let friendPresences = bot.presences;
-    // console.log(friendPresences.keyArray().toString());
-    friends.keyArray().forEach((val, index) => {
-        friendList[friends.keyArray()[index]] = friends.get(val).presence["status"];
+    friends.keyArray().forEach((val) => {
+        friendList[friends.get(val).username] = friends.get(val).presence["status"];
     });
     console.log(friendList);
 }

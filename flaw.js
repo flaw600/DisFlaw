@@ -14,6 +14,7 @@ cron.schedule('*/25 * * * *', () => {
 bot.on("ready", () => {
     readyCount++;
     console.log("AFlaw is ready");
+    console.log(`Status: ${bot.user.presence.status}`);
     console.log(`ID: ${bot.user.id}`);
     console.log(`Username: ${bot.user.username}`);
     console.log(bot.presences);

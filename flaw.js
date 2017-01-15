@@ -104,7 +104,7 @@ function checkFriendsStatuses(count) {
     friends.keyArray().forEach((val, index) => {
         friendList[friends.keyArray()[index]] = friends.get(val).presence["status"];
     });
-    console.log(`Friend statuses: ${friendList}`);
+    console.log(friendList);
 }
 
 // function watchForFriendPresenceUpdate(count) {

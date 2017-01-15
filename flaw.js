@@ -71,7 +71,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
     }
 });
 
-bot.login(process.env.USER_TOKEN).catch(err => console.error(err));
+bot.login(process.env.USER_TOKEN).then(() => bot.user.setStatus("invisible")).catch(err => console.error(err));
 
 function watch(user) {
     try {

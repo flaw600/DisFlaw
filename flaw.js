@@ -17,8 +17,8 @@ bot.on("ready", () => {
     console.log(`Status: ${bot.user.presence.status}`);
     console.log(`ID: ${bot.user.id}`);
     console.log(`Username: ${bot.user.username}`);
-    console.log(bot.presences);
-    console.log(bot.user.friends);
+    // console.log(bot.presences);
+    // console.log(bot.user.friends);
     checkFriendsStatuses(readyCount);
     // watchForFriendPresenceUpdate(readyCount);
 });
@@ -104,7 +104,7 @@ function checkFriendsStatuses(count) {
     friends.keyArray().forEach((val, index) => {
         friendList[friends.keyArray()[index]] = friends.get(val).presence["status"];
     });
-    console.log(friendPresences);
+    console.log(`Friend statuses: ${friendList}`);
 }
 
 // function watchForFriendPresenceUpdate(count) {

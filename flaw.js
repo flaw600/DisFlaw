@@ -69,14 +69,15 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                     sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
                 }
             }
+        } else {
+            friends.keyArray().forEach((val) => {
+                if (friendList[val] && (friends.get(val).presence["status"] === "online" 
+                || friends.get(val).presence["status"] === "offline") && friendList[val] != friends.get(val).presence["status"]) {
+                    sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
+                }
+                friendList[val] = friends.get(val).presence["status"]; 
+            });
         }
-        friends.keyArray().forEach((val) => {
-            if (friendList[val] && (friends.get(val).presence["status"] === "online" 
-            || friends.get(val).presence["status"] === "offline") && friendList[val] != friends.get(val).presence["status"]) {
-                sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
-            }
-            friendList[val] = friends.get(val).presence["status"]; 
-        });
     } catch (error) {
         console.error(error);
     }

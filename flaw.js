@@ -59,15 +59,16 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        if (oldUser.client.user.id in bot.user.friends.keys) return;
         let friends = bot.user.friends;
-        let userObject = JSON.parse(process.env.WATCHLIST);
-        if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
-            if ((oldUser.presence.status === "online" || oldUser.presence.status === "offline") 
-            && (newUser.presence.status === "offline" || newUser.presence.status === "online")) {
-                 console.log(`presenceUpdate: ${oldUser.client.user.username}`);
-                 sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
-             }
+        if (!(oldUser.client.user.id in bot.user.friends.keys)) {
+            let userObject = JSON.parse(process.env.WATCHLIST);
+            if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
+                if ((oldUser.presence.status === "online" || oldUser.presence.status === "offline") 
+                && (newUser.presence.status === "offline" || newUser.presence.status === "online")) {
+                    console.log(`presenceUpdate: ${oldUser.client.user.username}`);
+                    sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
+                }
+            }
         }
         friends.keyArray().forEach((val) => {
             if (friendList[val] && (friends.get(val).presence["status"] === "online" 

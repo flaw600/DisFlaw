@@ -66,7 +66,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
         if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
             if (newUser.presence.status === "offline" || newUser.presence.status === "online") {
                 console.log(`presenceUpdate: ${oldUser.client.user.username}`);
-                sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
+                sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`, "presenceUpdate");
                 if (friendList[oldUser.user.username]) friendList[oldUser.user.username] = newUser.presence.status;
             }
         }
@@ -114,7 +114,7 @@ function watchForFriendPresenceUpdate(method) {
     friends.keyArray().forEach((val) => {
         if ((friendList[friends.get(val).username] != friends.get(val).presence["status"]) &&
         (friends.get(val).presence["status"] === "online" || friends.get(val).presence["status"] === "offline")) {
-            sendStatusMessage(`${friendList[friends.get(val).username]} is ${friends.get(val).presence["status"]}`);
+            sendStatusMessage(`${friendList[friends.get(val).username]} is ${friends.get(val).presence["status"]}`, "watchForFriendPresenceUpdate");
         }
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
     });
@@ -122,10 +122,10 @@ function watchForFriendPresenceUpdate(method) {
     console.log(friendList);
 }
 
-function sendStatusMessage(msg) {
+function sendStatusMessage(msg, method) {
      bot.channels.get(process.env.BOT_TEST_ID).sendMessage(msg)
     .then(message => {
-        console.log(message.content);
+        console.log(message.content + " from " + method);
         message.delete();  
     })
     .catch(console.error);

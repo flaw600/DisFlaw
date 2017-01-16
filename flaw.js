@@ -109,7 +109,7 @@ function checkFriendsStatuses(count) {
     console.log(friendList);
 }
 
-function watchForFriendPresenceUpdate(method, boolean) {
+function watchForFriendPresenceUpdate(method) {
     let friends = bot.user.friends;
     friends.keyArray().forEach((val) => {
         if ((friendList[friends.get(val).username] != friends.get(val).presence["status"]) &&

@@ -60,7 +60,7 @@ bot.on("message", msg => {
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
         let friends = bot.user.friends;
-        if (!(oldUser.client.user.id in bot.user.friends.keys)) {
+        if (!(oldUser.client.user in bot.user.friends)) {
             let userObject = JSON.parse(process.env.WATCHLIST);
             if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
                 if ((oldUser.presence.status === "online" || oldUser.presence.status === "offline") 

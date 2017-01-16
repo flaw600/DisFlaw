@@ -70,6 +70,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                 }
             }
         } else {
+            console.log("Non-friend Presence Update");
             watchForFriendPresenceUpdate("presenceUpdate");
         }
     } catch (error) {

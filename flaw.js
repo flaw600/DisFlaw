@@ -71,8 +71,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
             // console.log("Non-friend presence update");
             let userObject = JSON.parse(process.env.WATCHLIST);
             if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
-                if ((oldUser.presence.status === "online" || oldUser.presence.status === "offline") 
-                && (newUser.presence.status === "offline" || newUser.presence.status === "online")) {
+                if (newUser.presence.status === "offline" || newUser.presence.status === "online") {
                     console.log(`presenceUpdate: ${oldUser.client.user.username}`);
                     sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
                 }

@@ -3,11 +3,14 @@ var Discord = require("discord.js");
 var cron = require("node-schedule");
 var bot = new Discord.Client( {fetchAllMembers: true} );
 var readyCount = 0;
+var cronCounter = 0;
 // var watchlist = './watchlist.json';
 const prefix = "~";
 const friendList = {};
 
 cron.scheduleJob('*/1 * * * *', () => {
+    cronCounter++;
+    console.log(cronCounter);
     watchForFriendPresenceUpdate("cron");
 });
 

@@ -125,9 +125,9 @@ function watchForFriendPresenceUpdate(method) {
             sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
         }
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
-        console.log(`watchForFriendPresenceUpdate from ${method}:`);
-        console.log(friendList);
     });
+    console.log(`watchForFriendPresenceUpdate from ${method}:`);
+    console.log(friendList);
 }
 
 function sendStatusMessage(msg) {

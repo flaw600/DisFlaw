@@ -59,10 +59,10 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        console.log("Presence Update");
+        // console.log("Presence Update");
         let friends = bot.user.friends;
         if (!(oldUser.client.user in friends)) {
-            console.log("Friend presence update");
+            // console.log("Non-friend presence update");
             let userObject = JSON.parse(process.env.WATCHLIST);
             if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
                 if ((oldUser.presence.status === "online" || oldUser.presence.status === "offline") 
@@ -72,7 +72,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                 }
             }
         } else {
-            console.log("Non-friend Presence Update");
+            console.log("Friend Presence Update");
             watchForFriendPresenceUpdate("presenceUpdate");
         }
     } catch (error) {

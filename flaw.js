@@ -67,8 +67,8 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
             if (newUser.presence.status === "offline" || newUser.presence.status === "online") {
                 console.log(`presenceUpdate: ${oldUser.client.user.username}`);
                 sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`, "presenceUpdate");
-                if (friendList[oldUser.user.username.replace(/\s/g, '')]) 
-                    friendList[oldUser.user.username.replace(/\s/g, '')] = newUser.presence.status;
+                if (friendList[oldUser.user.username]) 
+                    friendList[oldUser.user.username] = newUser.presence.status;
             }
         }
     } catch (error) {

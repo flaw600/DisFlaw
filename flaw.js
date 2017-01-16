@@ -122,7 +122,7 @@ function watchForFriendPresenceUpdate(method) {
     friends.keyArray().forEach((val) => {
         if ((friendList[friends.get(val).username] != friends.get(val).presence["status"]) &&
         (friends.get(val).presence["status"] === "online" || friends.get(val).presence["status"] === "offline")) {
-            sendStatusMessage(`${friendList[friends.get(val).usernamel]} is ${friends.get(val).presence["status"]}`);
+            sendStatusMessage(`${friendList[friends.get(val).username]} is ${friends.get(val).presence["status"]}`);
         }
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
     });

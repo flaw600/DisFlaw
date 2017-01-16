@@ -66,7 +66,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
         let friends = bot.user.friends;
         if (friends[oldUser.id]) {
             console.log("Friend Presence Update");
-            watchForFriendPresenceUpdate("presenceUpdate");
+            watchForFriendPresenceUpdate("presenceUpdate", friends);
         } else {
             // console.log("Non-friend presence update");
             let userObject = JSON.parse(process.env.WATCHLIST);
@@ -116,8 +116,8 @@ function checkFriendsStatuses(count) {
     console.log(friendList);
 }
 
-function watchForFriendPresenceUpdate(method) {
-    let friends = bot.user.friends;
+function watchForFriendPresenceUpdate(method, friend) {
+    let friends = (typeof friend !== "undefined") ? friend : bot.user.friends;
     friends.keyArray().forEach((val) => {
         if ((friendList[friends.get(val).username] != friends.get(val).presence["status"]) &&
         (friends.get(val).presence["status"] === "online" || friends.get(val).presence["status"] === "offline")) {

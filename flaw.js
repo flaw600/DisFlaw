@@ -1,13 +1,13 @@
 var Discord = require("discord.js");
 // var fs = require("fs");
-var cron = require("node-cron");
+var cron = require("node-schedule");
 var bot = new Discord.Client( {fetchAllMembers: true} );
 var readyCount = 0;
 // var watchlist = './watchlist.json';
 const prefix = "~";
 const friendList = {};
 
-cron.schedule('*/1 * * * *', () => {
+cron.scheduleJob('*/1 * * * *', () => {
     watchForFriendPresenceUpdate("cron");
 });
 

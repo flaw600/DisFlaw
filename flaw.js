@@ -59,6 +59,7 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
+        console.log("Presence Update");
         let friends = bot.user.friends;
         if (!(oldUser.client.user in friends)) {
             let userObject = JSON.parse(process.env.WATCHLIST);

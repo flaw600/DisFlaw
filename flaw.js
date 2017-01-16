@@ -20,7 +20,7 @@ bot.on("ready", () => {
     // console.log(bot.presences);
     // console.log(bot.user.friends);
     checkFriendsStatuses(readyCount);
-    watchForFriendPresenceUpdate();
+    watchForFriendPresenceUpdate("ready");
 });
 
 process.on('SIGTERM', () => {
@@ -70,7 +70,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                 }
             }
         } else {
-            watchForFriendPresenceUpdate();
+            watchForFriendPresenceUpdate("presenceUpdate");
         }
     } catch (error) {
         console.error(error);
@@ -111,7 +111,7 @@ function checkFriendsStatuses(count) {
     console.log(friendList);
 }
 
-function watchForFriendPresenceUpdate() {
+function watchForFriendPresenceUpdate(method) {
     let friends = bot.user.friends;
     friends.keyArray().forEach((val) => {
         if ((friendList[friends.get(val).username] != friends.get(val).presence["status"]) &&
@@ -119,7 +119,7 @@ function watchForFriendPresenceUpdate() {
             sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
         }
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
-        console.log("watchForFriendPresenceUpdate: ");
+        console.log(`watchForFriendPresenceUpdate from ${method}:`);
         console.log(friendList);
     });
 }

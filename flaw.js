@@ -71,10 +71,9 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                     sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
                 }
             }
-        } else {
-            console.log("Friend Presence Update");
-            watchForFriendPresenceUpdate("presenceUpdate");
         }
+        console.log("Friend Presence Update");
+        watchForFriendPresenceUpdate("presenceUpdate");
     } catch (error) {
         console.error(error);
     }

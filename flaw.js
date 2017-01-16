@@ -20,7 +20,7 @@ bot.on("ready", () => {
     // console.log(bot.presences);
     // console.log(bot.user.friends);
     checkFriendsStatuses(readyCount);
-    watchForFriendPresenceUpdate("ready");
+    // watchForFriendPresenceUpdate("ready");
 });
 
 process.on('SIGTERM', () => {

@@ -7,8 +7,8 @@ var readyCount = 0;
 const prefix = "~";
 const friendList = {};
 
-cron.schedule('*/25 * * * *', () => {
-    console.log("Keeping SelfBot process alive");
+cron.schedule('*/5 * * * *', () => {
+    watchForFriendPresenceUpdate();
 });
 
 bot.on("ready", () => {
@@ -73,7 +73,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
             }
         }
         // console.log("Friend Presence Update");
-        watchForFriendPresenceUpdate("presenceUpdate");
+        // watchForFriendPresenceUpdate("presenceUpdate");
     } catch (error) {
         console.error(error);
     }

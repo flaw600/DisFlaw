@@ -4,10 +4,6 @@ var cron = require("node-cron");
 var bot = new Discord.Client();
 const prefix = "~";
 
-cron.schedule('*/25 * * * *', () => {
-    console.log("Keeping FlawBot process alive");
-});
-
 bot.on("ready", () => {
     console.log("FlawBot is ready");
     console.log(`ID: ${bot.user.id}`);

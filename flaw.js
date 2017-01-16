@@ -61,7 +61,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
         // console.log("Presence Update");
         let friends = bot.user.friends;
-        if (oldUser.client.user in friends) {
+        if (friends[oldUser.id]) {
             console.log("Friend Presence Update");
             watchForFriendPresenceUpdate("presenceUpdate");
         } else {

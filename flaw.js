@@ -107,6 +107,7 @@ function checkFriendsStatuses(count) {
     friends.keyArray().forEach((val) => {
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
     });
+    console.log("checkFriendsStatuses: ");
     console.log(friendList);
 }
 
@@ -118,6 +119,7 @@ function watchForFriendPresenceUpdate() {
             sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
         }
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
+        console.log("watchForFriendPresenceUpdate: ");
         console.log(friendList);
     });
 }
@@ -126,7 +128,7 @@ function sendStatusMessage(msg) {
      bot.channels.get(process.env.BOT_TEST_ID).sendMessage(msg)
     .then(message => {
         console.log(message.content);
-         message.delete();  
+        message.delete();  
     })
     .catch(console.error);
 }

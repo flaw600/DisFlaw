@@ -1,6 +1,5 @@
 var http = require("http");
 var Discord = require("discord.js");
-var cron = require("node-cron");
 var bot = new Discord.Client();
 const prefix = "~";
 

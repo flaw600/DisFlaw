@@ -7,8 +7,8 @@ var readyCount = 0;
 const prefix = "~";
 const friendList = {};
 
-cron.schedule('*/5 * * * *', () => {
-    watchForFriendPresenceUpdate();
+cron.schedule('*/1 * * * *', () => {
+    watchForFriendPresenceUpdate("cron");
 });
 
 bot.on("ready", () => {
@@ -61,7 +61,10 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
         // console.log("Presence Update");
         let friends = bot.user.friends;
-        if (!(oldUser.client.user in friends)) {
+        if (oldUser.client.user in friends) {
+            console.log("Friend Presence Update");
+            watchForFriendPresenceUpdate("presenceUpdate");
+        } else {
             // console.log("Non-friend presence update");
             let userObject = JSON.parse(process.env.WATCHLIST);
             if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
@@ -72,8 +75,6 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                 }
             }
         }
-        // console.log("Friend Presence Update");
-        // watchForFriendPresenceUpdate("presenceUpdate");
     } catch (error) {
         console.error(error);
     }

@@ -72,7 +72,7 @@ bot.on("presenceUpdate", (oldUser, newUser) => {
                 }
             }
         }
-        console.log("Friend Presence Update");
+        // console.log("Friend Presence Update");
         watchForFriendPresenceUpdate("presenceUpdate");
     } catch (error) {
         console.error(error);

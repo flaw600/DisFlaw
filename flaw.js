@@ -117,7 +117,7 @@ function watchForFriendPresenceUpdate() {
         (friends.get(val).presence["status"] === "online" || friends.get(val).presence["status"] === "offline")) {
             sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
         }
-        friendList[val] = friends.get(val).presence["status"];
+        friendList[friends.get(val).username] = friends.get(val).presence["status"];
         console.log(friendList);
     });
 }

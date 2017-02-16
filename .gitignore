@@ -47,3 +47,4 @@ jspm_packages
 !/jsconfig.json
 !/.travis.yml
 !/Procfile
+!/newrelic.js

@@ -1,3 +1,4 @@
+require('newrelic');
 var fs = require("fs");
 
 console.log(fs.existsSync("./watchlist.json"));

@@ -1,3 +1,4 @@
+require('newrelic');
 var Discord = require("discord.js");
 // var fs = require("fs");
 var cron = require("node-schedule");

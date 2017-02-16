@@ -1,14 +1,17 @@
 var Discord = require("discord.js");
 // var fs = require("fs");
-var cron = require("node-cron");
+var cron = require("node-schedule");
 var bot = new Discord.Client( {fetchAllMembers: true} );
 var readyCount = 0;
+var cronCounter = 0;
 // var watchlist = './watchlist.json';
 const prefix = "~";
 const friendList = {};
 
-cron.schedule('*/25 * * * *', () => {
-    console.log("Keeping SelfBot process alive");
+cron.scheduleJob('*/1 * * * *', () => {
+    cronCounter++;
+    console.log(cronCounter);
+    watchForFriendPresenceUpdate("cron");
 });
 
 bot.on("ready", () => {
@@ -20,7 +23,7 @@ bot.on("ready", () => {
     // console.log(bot.presences);
     // console.log(bot.user.friends);
     checkFriendsStatuses(readyCount);
-    // watchForFriendPresenceUpdate(readyCount);
+    // watchForFriendPresenceUpdate("ready");
 });
 
 process.on('SIGTERM', () => {
@@ -59,24 +62,17 @@ bot.on("message", msg => {
 
 bot.on("presenceUpdate", (oldUser, newUser) => {
     try {
-        let friends = bot.user.friends;
-        if (!(oldUser.client.user.id in bot.user.friends.keys)) {
-            let userObject = JSON.parse(process.env.WATCHLIST);
-            if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
-                if ((oldUser.presence.status === "online" || oldUser.presence.status === "offline") 
-                && (newUser.presence.status === "offline" || newUser.presence.status === "online")) {
-                    console.log(`presenceUpdate: ${oldUser.client.user.username}`);
-                    sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`);
+        let userObject = JSON.parse(process.env.WATCHLIST);
+        if (userObject[oldUser.user.username.replace(/\s/g, '')]) {
+            if (newUser.presence.status === "offline" || newUser.presence.status === "online") {
+                console.log(`presenceUpdate: ${oldUser.client.user.username}`);
+                sendStatusMessage(`${oldUser.user.username} is ${newUser.presence.status}`, "presenceUpdate");
+                if (friendList[oldUser.user.username]) {
+                    friendList[oldUser.user.username] = newUser.presence.status;
+                    console.log("Friend presenceUpdate:");
+                    console.log(friendList);
                 }
             }
-        } else {
-            friends.keyArray().forEach((val) => {
-                if (friendList[val] && (friends.get(val).presence["status"] === "online" 
-                || friends.get(val).presence["status"] === "offline") && friendList[val] != friends.get(val).presence["status"]) {
-                    sendStatusMessage(`${friendList[val]} is ${friends.get(val).presence["status"]}`);
-                }
-                friendList[val] = friends.get(val).presence["status"]; 
-            });
         }
     } catch (error) {
         console.error(error);
@@ -113,26 +109,28 @@ function checkFriendsStatuses(count) {
     friends.keyArray().forEach((val) => {
         friendList[friends.get(val).username] = friends.get(val).presence["status"];
     });
+    console.log("checkFriendsStatuses: ");
     console.log(friendList);
 }
 
-// function watchForFriendPresenceUpdate(count) {
-//     if (count > 1) return;
-//     while(true) {
-//         // let friendPresences = bot.presences;
-//         // let friends = bot.user.friends;
-//         // let friendPresencesKeys = friendPresences.keys;
-//         // let friendKeys = friends.keys;
-//         // let guilds = bot.guilds;
-//         for ()
-//     }
-// }
+function watchForFriendPresenceUpdate(method) {
+    let friends = bot.user.friends;
+    friends.keyArray().forEach((val) => {
+        if ((friendList[friends.get(val).username] != friends.get(val).presence["status"]) &&
+        (friends.get(val).presence["status"] === "online" || friends.get(val).presence["status"] === "offline")) {
+            sendStatusMessage(`${friends.get(val).username} is ${friends.get(val).presence["status"]}`, "watchForFriendPresenceUpdate");
+        }
+        friendList[friends.get(val).username] = friends.get(val).presence["status"];
+    });
+    console.log(`watchForFriendPresenceUpdate from ${method}:`);
+    console.log(friendList);
+}
 
-function sendStatusMessage(msg) {
+function sendStatusMessage(msg, method) {
      bot.channels.get(process.env.BOT_TEST_ID).sendMessage(msg)
     .then(message => {
-        console.log(message.content);
-         message.delete();  
+        console.log(message.content + " from " + method);
+        message.delete();  
     })
     .catch(console.error);
 }
